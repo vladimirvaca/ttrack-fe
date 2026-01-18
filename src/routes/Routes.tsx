@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Login from '../pages/Login.tsx';
+import LoginPage from '../pages/LoginPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login onLogin={() => console.log('Login clicked')} />,
+    element: <LoginPage />,
   },
 ]);
 

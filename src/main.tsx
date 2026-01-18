@@ -1,6 +1,6 @@
+import { PrimeReactProvider } from 'primereact/api';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { PrimeReactProvider } from 'primereact/api';
 
 // PrimeReact styles
 import 'primereact/resources/themes/lara-light-blue/theme.css';
