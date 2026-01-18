@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Auth from '../pages/Auth';
+import Login from '../pages/Login.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Auth />,
+    element: <Login onLogin={() => console.log('Login clicked')} />,
   },
 ]);
 
