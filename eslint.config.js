@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import importX from 'eslint-plugin-import-x';
+import unusedImports from 'eslint-plugin-unused-imports';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -22,6 +23,9 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+    },
+    plugins: {
+      'unused-imports': unusedImports,
     },
     settings: {
       'import-x/resolver': {
@@ -45,7 +49,11 @@ export default defineConfig([
       // TypeScript best practices
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-empty-interface': 'warn',
-      '@typescript-eslint/no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': 'off', // Turned off in favor of unused-imports plugin
+
+      // Unused imports (auto-fixable)
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
         'warn',
         {
           argsIgnorePattern: '^_',
@@ -83,6 +91,20 @@ export default defineConfig([
       ],
       'import-x/no-cycle': 'warn',
       'import-x/no-default-export': 'off',
+      'import-x/no-unused-modules': [
+        'warn',
+        {
+          unusedExports: true,
+          ignoreExports: [
+            '**/main.tsx',
+            '**/vite.config.ts',
+            '**/eslint.config.js',
+            '**/*.config.{js,ts}',
+            '**/Routes.tsx',
+            '**/*Page.tsx',
+          ],
+        },
+      ],
 
       // General best practices
       'no-console': ['warn', { allow: ['warn', 'error'] }],
