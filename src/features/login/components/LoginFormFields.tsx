@@ -3,7 +3,7 @@ import { Checkbox } from 'primereact/checkbox';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import { type FC, type FormEvent, useState } from 'react';
 
 import type { LoginFormData } from '../types';
 
@@ -11,13 +11,13 @@ interface LoginFormFieldsProps {
   onSubmit: (data: LoginFormData) => void;
 }
 
-const LoginFormFields: React.FC<LoginFormFieldsProps> = ({ onSubmit }) => {
+const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSubmit({ email, password, remember });
   };

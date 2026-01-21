@@ -1,11 +1,11 @@
 import { Card } from 'primereact/card';
-import React from 'react';
 
 import LoginFormFields from '../components/LoginFormFields';
 
 import type { LoginFormData, LoginViewProps } from '../types';
+import type { FC } from 'react';
 
-const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
+const LoginView: FC<LoginViewProps> = ({ onSubmit }) => {
   const handleFormSubmit = (data: LoginFormData) => {
     onSubmit(data);
   };
@@ -36,7 +36,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
       </Card>
 
       <footer className="mt-2 mb-0 text-center">
-        <span className="text-xs text-500">© 2024 rvladimir Inc. v0.0.1</span>
+        <span className="text-xs text-500">© {new Date().getFullYear()} rwcoder v0.0.1</span>
       </footer>
     </div>
   );
