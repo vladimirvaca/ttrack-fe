@@ -92,7 +92,7 @@ export default defineConfig([
       'import-x/no-cycle': 'warn',
       'import-x/no-default-export': 'off',
       'import-x/no-unused-modules': [
-        'warn',
+        'error',
         {
           unusedExports: true,
           ignoreExports: [
