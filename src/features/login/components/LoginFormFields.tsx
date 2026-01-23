@@ -1,9 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
-import { type FC, type FormEvent, useState } from 'react';
+import { type FC, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { loginSchema } from '../schemas';
 
 import type { LoginFormData } from '../types';
 
@@ -12,58 +16,87 @@ interface LoginFormFieldsProps {
 }
 
 const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    onSubmit({ email, password, remember });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onTouched',
+    defaultValues: {
+      email: '',
+      password: '',
+      remember: false,
+    },
+  });
+
+  const onFormSubmit = (data: LoginFormData) => {
+    onSubmit(data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-2 flex flex-column gap-2">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="p-2 flex flex-column gap-2">
       <div className="flex flex-column gap-2">
         <label htmlFor="email" className="text-sm font-bold">
           Email Address
         </label>
-        <InputText
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Your email"
-          className="w-full p-inputtext-sm"
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <InputText
+              id="email"
+              {...field}
+              placeholder="Your email"
+              className={`w-full p-inputtext-sm ${errors.email ? 'p-invalid' : ''}`}
+            />
+          )}
         />
+        {errors.email && <small className="p-error">{errors.email.message}</small>}
       </div>
 
       <div className="flex flex-column gap-2">
         <label htmlFor="password" className="text-sm font-bold">
           Password
         </label>
-        <IconField iconPosition="right">
-          <InputIcon
-            className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'} cursor-pointer`}
-            onClick={() => setShowPassword(!showPassword)}
-          />
-          <InputText
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Your password"
-            className="w-full p-inputtext-sm"
-          />
-        </IconField>
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <IconField iconPosition="right">
+              <InputIcon
+                className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'} cursor-pointer`}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+              <InputText
+                id="password"
+                {...field}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Your password"
+                className={`w-full p-inputtext-sm ${errors.password ? 'p-invalid' : ''}`}
+              />
+            </IconField>
+          )}
+        />
+        {errors.password && <small className="p-error">{errors.password.message}</small>}
       </div>
 
       <div className="flex align-items-center gap-2 mt-2">
-        <Checkbox
-          id="remember"
-          checked={remember}
-          onChange={(e) => setRemember(e.checked || false)}
+        <Controller
+          name="remember"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              inputId="remember"
+              inputRef={field.ref}
+              checked={field.value}
+              onChange={(e) => field.onChange(e.checked || false)}
+            />
+          )}
         />
-        <label htmlFor="remember" className="text-sm">
+        <label htmlFor="remember" className="text-sm cursor-pointer">
           Remember for 5 days
         </label>
       </div>
