@@ -37,9 +37,13 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="p-2 flex flex-column gap-2">
-      <div className="flex flex-column gap-2">
-        <label htmlFor="email" className="text-sm font-bold">
+    <form
+      onSubmit={handleSubmit(onFormSubmit)}
+      className="p-2 flex flex-column gap-2"
+      data-test="login-form"
+    >
+      <div className="flex flex-column gap-2" data-test="email-field-container">
+        <label htmlFor="email" className="text-sm font-bold" data-test="email-label">
           Email Address
         </label>
         <Controller
@@ -51,14 +55,19 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
               {...field}
               placeholder="Your email"
               className={`w-full p-inputtext-sm ${errors.email ? 'p-invalid' : ''}`}
+              data-test="email-input"
             />
           )}
         />
-        {errors.email && <small className="p-error">{errors.email.message}</small>}
+        {errors.email && (
+          <small className="p-error" data-test="email-error">
+            {errors.email.message}
+          </small>
+        )}
       </div>
 
-      <div className="flex flex-column gap-2">
-        <label htmlFor="password" className="text-sm font-bold">
+      <div className="flex flex-column gap-2" data-test="password-field-container">
+        <label htmlFor="password" className="text-sm font-bold" data-test="password-label">
           Password
         </label>
         <Controller
@@ -69,6 +78,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
               <InputIcon
                 className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'} cursor-pointer`}
                 onClick={() => setShowPassword(!showPassword)}
+                data-test="password-toggle-icon"
               />
               <InputText
                 id="password"
@@ -76,14 +86,19 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Your password"
                 className={`w-full p-inputtext-sm ${errors.password ? 'p-invalid' : ''}`}
+                data-test="password-input"
               />
             </IconField>
           )}
         />
-        {errors.password && <small className="p-error">{errors.password.message}</small>}
+        {errors.password && (
+          <small className="p-error" data-test="password-error">
+            {errors.password.message}
+          </small>
+        )}
       </div>
 
-      <div className="flex align-items-center gap-2 mt-2">
+      <div className="flex align-items-center gap-2 mt-2" data-test="remember-field-container">
         <Controller
           name="remember"
           control={control}
@@ -93,10 +108,11 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
               inputRef={field.ref}
               checked={field.value}
               onChange={(e) => field.onChange(e.checked || false)}
+              data-test="remember-checkbox"
             />
           )}
         />
-        <label htmlFor="remember" className="text-sm cursor-pointer">
+        <label htmlFor="remember" className="text-sm cursor-pointer" data-test="remember-label">
           Remember for 5 days
         </label>
       </div>
@@ -109,9 +125,14 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
           iconPos="right"
           className="w-full shadow-4"
           size="small"
+          data-test="submit-button"
         />
         <div className="text-center">
-          <a href="#" className="text-sm font-bold text-primary no-underline hover:underline">
+          <a
+            href="#"
+            className="text-sm font-bold text-primary no-underline hover:underline"
+            data-test="forgot-password-link"
+          >
             Forgot password?
           </a>
         </div>
