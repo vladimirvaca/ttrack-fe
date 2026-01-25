@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -42,7 +42,7 @@ describe('LoginView', () => {
 
     await user.type(screen.getByTestId('email-input'), 'test@example.com');
     await user.type(screen.getByTestId('password-input'), 'password123');
-    await user.click(screen.getByTestId('submit-button'));
+    fireEvent.submit(screen.getByTestId('login-form'));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({

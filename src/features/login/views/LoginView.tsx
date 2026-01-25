@@ -7,7 +7,7 @@ import { styles } from './LoginViewStyles.ts';
 import type { LoginFormData, LoginViewProps } from '../types';
 import type { FC } from 'react';
 
-const LoginView: FC<LoginViewProps> = ({ onSubmit }) => {
+const LoginView: FC<LoginViewProps> = ({ onSubmit, isSubmitting = false }) => {
   const handleFormSubmit = (data: LoginFormData) => {
     onSubmit(data);
   };
@@ -27,7 +27,7 @@ const LoginView: FC<LoginViewProps> = ({ onSubmit }) => {
           <p className="mt-2 text-sm text-500">Sign in to manage exercises and users</p>
         </div>
 
-        <LoginFormFields onSubmit={handleFormSubmit} />
+        <LoginFormFields onSubmit={handleFormSubmit} isSubmitting={isSubmitting} />
 
         <div className="pt-4 bg-gray-50 border-top-1 border-200 text-center">
           <p className="m-0 text-xs text-500 flex align-items-center justify-content-center gap-1">

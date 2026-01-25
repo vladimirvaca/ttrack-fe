@@ -15,15 +15,16 @@ import type { LoginFormData } from '../../types';
 
 interface LoginFormFieldsProps {
   onSubmit: (data: LoginFormData) => void;
+  isSubmitting?: boolean;
 }
 
-const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
+const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = false }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting: isFormSubmitting, isValidating },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onTouched',
@@ -37,6 +38,8 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
   const onFormSubmit = (data: LoginFormData) => {
     onSubmit(data);
   };
+
+  const isBusy = isSubmitting || isFormSubmitting || isValidating;
 
   return (
     <form
@@ -129,6 +132,9 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
           iconPos="right"
           className="w-full shadow-4"
           size="small"
+          loading={isBusy}
+          disabled={isBusy}
+          aria-busy={isBusy}
           style={styles.button}
           data-test="submit-button"
         />

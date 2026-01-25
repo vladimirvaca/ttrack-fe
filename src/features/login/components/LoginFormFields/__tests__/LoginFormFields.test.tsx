@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -94,11 +94,9 @@ describe('LoginFormFields', () => {
 
   describe('Form Validation', () => {
     it('should show email error when submitting empty email', async () => {
-      const user = userEvent.setup();
       renderComponent();
 
-      const submitButton = screen.getByTestId('submit-button');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(screen.getByTestId('email-error')).toBeInTheDocument();
@@ -111,11 +109,9 @@ describe('LoginFormFields', () => {
       renderComponent();
 
       const emailInput = screen.getByTestId('email-input');
-      const submitButton = screen.getByTestId('submit-button');
-
       // Type invalid email
       await user.type(emailInput, 'invalidemail');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(screen.getByTestId('email-error')).toBeInTheDocument();
@@ -128,11 +124,9 @@ describe('LoginFormFields', () => {
       renderComponent();
 
       const emailInput = screen.getByTestId('email-input');
-      const submitButton = screen.getByTestId('submit-button');
-
       // Type valid email but no password
       await user.type(emailInput, 'test@example.com');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(screen.getByTestId('password-error')).toBeInTheDocument();
@@ -163,11 +157,9 @@ describe('LoginFormFields', () => {
 
       const emailInput = screen.getByTestId('email-input');
       const passwordInput = screen.getByTestId('password-input');
-      const submitButton = screen.getByTestId('submit-button');
-
       await user.type(emailInput, 'test@example.com');
       await user.type(passwordInput, 'password123');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalledTimes(1);
@@ -186,14 +178,12 @@ describe('LoginFormFields', () => {
       const emailInput = screen.getByTestId('email-input');
       const passwordInput = screen.getByTestId('password-input');
       const rememberLabel = screen.getByTestId('remember-label');
-      const submitButton = screen.getByTestId('submit-button');
-
       await user.type(emailInput, 'test@example.com');
       await user.type(passwordInput, 'password123');
 
       // Click the label which is associated with the checkbox
       await user.click(rememberLabel);
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalledWith({
@@ -205,11 +195,9 @@ describe('LoginFormFields', () => {
     });
 
     it('should not call onSubmit when form is invalid', async () => {
-      const user = userEvent.setup();
       renderComponent();
 
-      const submitButton = screen.getByTestId('submit-button');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(screen.getByTestId('email-error')).toBeInTheDocument();
@@ -256,13 +244,10 @@ describe('LoginFormFields', () => {
 
   describe('Error Styling', () => {
     it('should apply error styling to email input when there is an error', async () => {
-      const user = userEvent.setup();
       renderComponent();
 
       const emailInput = screen.getByTestId('email-input');
-      const submitButton = screen.getByTestId('submit-button');
-
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(emailInput).toHaveClass('p-invalid');
@@ -275,10 +260,8 @@ describe('LoginFormFields', () => {
 
       const emailInput = screen.getByTestId('email-input');
       const passwordInput = screen.getByTestId('password-input');
-      const submitButton = screen.getByTestId('submit-button');
-
       await user.type(emailInput, 'test@example.com');
-      await user.click(submitButton);
+      fireEvent.submit(screen.getByTestId('login-form'));
 
       await waitFor(() => {
         expect(passwordInput).toHaveClass('p-invalid');

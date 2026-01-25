@@ -14,10 +14,14 @@
     "prepare": "husky",
     "test": "vitest --run",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage --run"
+    "test:coverage": "vitest --coverage --run",
+    "orval": "orval --config orval.config.cjs && prettier --write src/api/generated",
+    "orval:watch": "orval --config orval.config.cjs --watch"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@tanstack/react-query": "^5.90.20",
+    "axios": "^1.13.2",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
@@ -48,6 +52,7 @@
     "husky": "^9.1.7",
     "jsdom": "^27.4.0",
     "lint-staged": "^16.2.7",
+    "orval": "^7.13.2",
     "prettier": "^3.8.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

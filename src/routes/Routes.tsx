@@ -1,11 +1,24 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import LoginPage from '../pages/LoginPage.tsx';
+import DashboardPage from '../pages/DashboardPage/DashboardPage.tsx';
+import LoginPage from '../pages/LoginPage/LoginPage.tsx';
+
+import ProtectedRoute from './ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <LoginPage />,
+  },
+  {
+    path: '/dashboard',
+    element: <ProtectedRoute />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+    ],
   },
 ]);
 

@@ -3,6 +3,7 @@ dist
 build
 .idea
 *.lock
+package-lock.json
 .vscode
 .env
 .env.local
