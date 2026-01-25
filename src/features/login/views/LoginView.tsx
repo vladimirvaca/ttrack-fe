@@ -1,6 +1,6 @@
 import { Card } from 'primereact/card';
 
-import LoginFormFields from '../components/LoginFormFields';
+import LoginFormFields from '../components/LoginFormFields/LoginFormFields.tsx';
 
 import { styles } from './LoginViewStyles.ts';
 

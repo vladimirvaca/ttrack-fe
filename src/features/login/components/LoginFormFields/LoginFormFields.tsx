@@ -7,11 +7,11 @@ import { InputText } from 'primereact/inputtext';
 import { type FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { loginSchema } from '../schemas';
+import { loginSchema } from '../../schemas';
 
 import { styles } from './LoginFormFieldsStyles.ts';
 
-import type { LoginFormData } from '../types';
+import type { LoginFormData } from '../../types';
 
 interface LoginFormFieldsProps {
   onSubmit: (data: LoginFormData) => void;
