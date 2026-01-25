@@ -2,6 +2,8 @@ import { Card } from 'primereact/card';
 
 import LoginFormFields from '../components/LoginFormFields';
 
+import { styles } from './LoginViewStyles.ts';
+
 import type { LoginFormData, LoginViewProps } from '../types';
 import type { FC } from 'react';
 
@@ -11,8 +13,8 @@ const LoginView: FC<LoginViewProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="login-container">
-      <Card className="login-card shadow-8">
+    <div style={styles.container}>
+      <Card className="shadow-8" style={styles.card}>
         <div className="text-center pb-1">
           <div
             className="inline-flex align-items-center justify-content-center p-3 border-circle mb-4"

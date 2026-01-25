@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import LoginFormFields from './LoginFormFields';
+import LoginFormFields from '../LoginFormFields.tsx';
 
 describe('LoginFormFields', () => {
   const mockOnSubmit = vi.fn();

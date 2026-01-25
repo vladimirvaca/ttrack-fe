@@ -9,6 +9,8 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { loginSchema } from '../schemas';
 
+import { styles } from './LoginFormFieldsStyles.ts';
+
 import type { LoginFormData } from '../types';
 
 interface LoginFormFieldsProps {
@@ -55,6 +57,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
               {...field}
               placeholder="Your email"
               className={`w-full p-inputtext-sm ${errors.email ? 'p-invalid' : ''}`}
+              style={styles.input}
               data-test="email-input"
             />
           )}
@@ -86,6 +89,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Your password"
                 className={`w-full p-inputtext-sm ${errors.password ? 'p-invalid' : ''}`}
+                style={styles.input}
                 data-test="password-input"
               />
             </IconField>
@@ -125,6 +129,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit }) => {
           iconPos="right"
           className="w-full shadow-4"
           size="small"
+          style={styles.button}
           data-test="submit-button"
         />
         <div className="text-center">
