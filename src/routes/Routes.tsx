@@ -8,7 +8,13 @@ import ProtectedRoute from './ProtectedRoute.tsx';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LoginPage />,
+    element: <ProtectedRoute requireAuth={false} />,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
   },
   {
     path: '/dashboard',

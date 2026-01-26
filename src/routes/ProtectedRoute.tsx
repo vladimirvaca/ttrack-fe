@@ -1,26 +1,50 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useGetUser } from '@generated/user/user.ts';
 
-const ProtectedRoute = () => {
-  const { isPending, isError } = useGetUser({
+import type { ReactNode } from 'react';
+
+type ProtectedRouteProps = {
+  redirectTo?: string;
+  fallback?: ReactNode;
+  children?: ReactNode;
+  requireAuth?: boolean;
+  authenticatedRedirectTo?: string;
+};
+
+const ProtectedRoute = ({
+  redirectTo = '/',
+  fallback = <ProgressSpinner />,
+  children,
+  requireAuth = true,
+  authenticatedRedirectTo = '/dashboard',
+}: ProtectedRouteProps) => {
+  const location = useLocation();
+  const { isPending, isError, isFetching, isSuccess } = useGetUser({
     query: {
       retry: false,
+      refetchOnMount: 'always',
+      staleTime: 0,
       refetchOnWindowFocus: false,
-      staleTime: 30_000,
     },
   });
 
-  if (isPending) {
-    return <ProgressSpinner />;
+  const isCheckingSession = isPending || isFetching;
+
+  if (isCheckingSession) {
+    return fallback;
   }
 
-  if (isError) {
-    return <Navigate to="/" replace />;
+  if (requireAuth && isError) {
+    return <Navigate to={redirectTo} replace state={{ from: location }} />;
   }
 
-  return <Outlet />;
+  if (!requireAuth && isSuccess) {
+    return <Navigate to={authenticatedRedirectTo} replace />;
+  }
+
+  return children ?? <Outlet />;
 };
 
 export default ProtectedRoute;

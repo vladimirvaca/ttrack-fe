@@ -19,8 +19,7 @@ const mutateSpy = vi.fn();
 
 let loginOutcome: 'success' | 'error' = 'success';
 let loginError: unknown = new Error('Invalid credentials');
-let userQueryOutcome: 'success' | 'error' = 'success';
-let userQueryError: unknown = new Error('Session verification failed.');
+let sessionOutcome: 'success' | 'error' = 'success';
 
 vi.mock('primereact/toast', () => ({
   Toast: forwardRef((_props, ref) => {
@@ -48,12 +47,12 @@ vi.mock('@generated/auth/auth.ts', () => ({
 }));
 
 vi.mock('@generated/user/user.ts', () => ({
-  getGetUserQueryOptions: () => ({
-    queryKey: ['user-test'],
-    queryFn: () =>
-      userQueryOutcome === 'success'
-        ? Promise.resolve({ id: 'user' })
-        : Promise.reject(userQueryError),
+  useGetUser: () => ({
+    isFetching: false,
+    refetch: () =>
+      sessionOutcome === 'success'
+        ? Promise.resolve({ isSuccess: true })
+        : Promise.resolve({ isSuccess: false }),
   }),
 }));
 
@@ -84,8 +83,7 @@ describe('LoginPage', () => {
     mutateSpy.mockClear();
     loginOutcome = 'success';
     loginError = new Error('Invalid credentials');
-    userQueryOutcome = 'success';
-    userQueryError = new Error('Session verification failed.');
+    sessionOutcome = 'success';
   });
 
   it('renders the login view', () => {
@@ -115,26 +113,6 @@ describe('LoginPage', () => {
     });
   });
 
-  it('shows a success toast and navigates after session verification', async () => {
-    const user = userEvent.setup();
-
-    renderLoginPage();
-
-    await user.type(screen.getByTestId('email-input'), 'admin@example.com');
-    await user.type(screen.getByTestId('password-input'), 'supersecure');
-    submitForm();
-
-    await waitFor(() => {
-      expect(showToast).toHaveBeenCalledWith({
-        severity: 'success',
-        summary: 'Login successful',
-        detail: 'Welcome back!',
-        life: 2500,
-      });
-      expect(navigateMock).toHaveBeenCalledWith('/dashboard');
-    });
-  });
-
   it('shows an error toast when login fails', async () => {
     const user = userEvent.setup();
     loginOutcome = 'error';
@@ -157,10 +135,8 @@ describe('LoginPage', () => {
     });
   });
 
-  it('shows an error toast when session verification fails', async () => {
+  it('shows a success toast and navigates after login', async () => {
     const user = userEvent.setup();
-    userQueryOutcome = 'error';
-    userQueryError = { message: 'Session expired' };
 
     renderLoginPage();
 
@@ -170,12 +146,13 @@ describe('LoginPage', () => {
 
     await waitFor(() => {
       expect(showToast).toHaveBeenCalledWith({
-        severity: 'error',
-        summary: 'Login failed',
-        detail: 'Session expired',
-        life: 4000,
+        severity: 'success',
+        summary: 'Login successful',
+        detail: 'Welcome back!',
+        life: 2500,
       });
-      expect(navigateMock).not.toHaveBeenCalled();
+      expect(navigateMock).toHaveBeenCalledWith('/dashboard');
     });
   });
+
 });

@@ -1,10 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { Toast } from 'primereact/toast';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogin } from '@generated/auth/auth.ts';
-import { getGetUserQueryOptions } from '@generated/user/user.ts';
+import { useGetUser } from '@generated/user/user.ts';
 
 import { LoginView } from '../../features/login';
 
@@ -13,48 +12,52 @@ import type { LoginFormData } from '../../features/login';
 const LoginPage = () => {
   const toastRef = useRef<Toast>(null);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [isVerifyingSession, setIsVerifyingSession] = useState(false);
+  const { refetch: verifySession, isFetching: isVerifyingSession } = useGetUser({
+    query: {
+      enabled: false,
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  });
 
   const getErrorMessage = (error: unknown, fallback: string) =>
     error && typeof error === 'object' && 'message' in error
       ? String((error as { message?: string }).message || fallback)
       : fallback;
 
-  const verifySession = useCallback(async () => {
-    setIsVerifyingSession(true);
-    try {
-      await queryClient.fetchQuery(getGetUserQueryOptions());
-      toastRef.current?.show({
-        severity: 'success',
-        summary: 'Login successful',
-        detail: 'Welcome back!',
-        life: 2500,
-      });
-      navigate('/dashboard');
-    } catch (error) {
-      toastRef.current?.show({
-        severity: 'error',
-        summary: 'Login failed',
-        detail: getErrorMessage(error, 'Session verification failed.'),
-        life: 4000,
-      });
-    } finally {
-      setIsVerifyingSession(false);
-    }
-  }, [navigate, queryClient]);
+  const showToast = (options: { severity: 'success' | 'error'; summary: string; detail: string }) => {
+    toastRef.current?.show({
+      severity: options.severity,
+      summary: options.summary,
+      detail: options.detail,
+      life: options.severity === 'success' ? 2500 : 4000,
+    });
+  };
 
   const loginMutation = useLogin<unknown>({
     mutation: {
       onSuccess: async () => {
-        await verifySession();
+        const sessionCheck = await verifySession();
+        if (sessionCheck.isSuccess) {
+          showToast({
+            severity: 'success',
+            summary: 'Login successful',
+            detail: 'Welcome back!',
+          });
+          navigate('/dashboard');
+          return;
+        }
+        showToast({
+          severity: 'error',
+          summary: 'Login failed',
+          detail: getErrorMessage(sessionCheck.error, 'Session verification failed.'),
+        });
       },
       onError: (error) => {
-        toastRef.current?.show({
+        showToast({
           severity: 'error',
           summary: 'Login failed',
           detail: getErrorMessage(error, 'Please check your credentials.'),
-          life: 4000,
         });
       },
     },
