@@ -1,7 +1,8 @@
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useGetUser } from '@generated/user/user.ts';
+
+import LoadingModal from '../components/LoadingModal';
 
 import type { ReactNode } from 'react';
 
@@ -15,7 +16,7 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({
   redirectTo = '/',
-  fallback = <ProgressSpinner />,
+  fallback = <LoadingModal />, // Use the new LoadingModal component
   children,
   requireAuth = true,
   authenticatedRedirectTo = '/dashboard',
