@@ -52,7 +52,7 @@ describe('LoginFormFields', () => {
       renderComponent();
 
       expect(screen.getByTestId('remember-checkbox')).toBeInTheDocument();
-      expect(screen.getByTestId('remember-label')).toHaveTextContent('Remember for 5 days');
+      expect(screen.getByTestId('remember-label')).toHaveTextContent('Remember me');
     });
 
     it('should render submit button', () => {

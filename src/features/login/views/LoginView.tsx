@@ -14,31 +14,30 @@ const LoginView: FC<LoginViewProps> = ({ onSubmit, isSubmitting = false }) => {
 
   return (
     <div style={styles.container}>
-      <Card className="shadow-8" style={styles.card}>
-        <div className="text-center pb-1">
-          <div
-            className="inline-flex align-items-center justify-content-center p-3 border-circle mb-4"
-            style={{ backgroundColor: 'rgba(19, 91, 236, 0.1)' }}
-          >
-            <i className="pi pi-shield text-primary" style={{ fontSize: '2rem' }}></i>
+      <Card style={styles.card}>
+        <div style={styles.header}>
+          <div style={styles.iconContainer}>
+            <i className="pi pi-shield" style={styles.icon}></i>
           </div>
-          <h4 className="m-0 text-xs font-bold text-500 uppercase tracking-widest">Welcome Back</h4>
-          <h2 className="m-0 mt-2 text-3xl font-bold">Ttrack Admin</h2>
-          <p className="mt-2 text-sm text-500">Sign in to manage exercises and users</p>
+          <h4 style={styles.welcomeText}>Welcome Back</h4>
+          <h2 style={styles.title}>Ttrack Admin</h2>
+          <p style={styles.subtitle}>Sign in to manage exercises and users</p>
         </div>
 
         <LoginFormFields onSubmit={handleFormSubmit} isSubmitting={isSubmitting} />
 
-        <div className="pt-4 bg-gray-50 border-top-1 border-200 text-center">
-          <p className="m-0 text-xs text-500 flex align-items-center justify-content-center gap-1">
-            <i className="pi pi-verified text-xs"></i>
+        <div style={styles.formFooter}>
+          <p style={styles.authorizedText}>
+            <i className="pi pi-verified" style={styles.authorizedIcon}></i>
             Authorized personnel only.
           </p>
         </div>
       </Card>
 
-      <footer className="mt-2 mb-0 text-center">
-        <span className="text-xs text-500">© {new Date().getFullYear()} rwcoder v0.0.1</span>
+      <footer style={styles.footer}>
+        <span style={styles.footerText}>
+          © {new Date().getFullYear()} rwcoder v0.0.1
+        </span>
       </footer>
     </div>
   );

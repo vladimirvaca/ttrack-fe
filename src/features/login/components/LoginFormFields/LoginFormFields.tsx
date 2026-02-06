@@ -44,11 +44,11 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className="p-2 flex flex-column gap-2"
+      className="p-fluid flex flex-column gap-3"
       data-test="login-form"
     >
       <div className="flex flex-column gap-2" data-test="email-field-container">
-        <label htmlFor="email" className="text-sm font-bold" data-test="email-label">
+        <label htmlFor="email" data-test="email-label">
           Email Address
         </label>
         <Controller
@@ -59,7 +59,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
               id="email"
               {...field}
               placeholder="Your email"
-              className={`w-full p-inputtext-sm ${errors.email ? 'p-invalid' : ''}`}
+              className={`p-inputtext-sm ${errors.email ? 'p-invalid' : ''}`}
               style={styles.input}
               data-test="email-input"
             />
@@ -73,7 +73,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
       </div>
 
       <div className="flex flex-column gap-2" data-test="password-field-container">
-        <label htmlFor="password" className="text-sm font-bold" data-test="password-label">
+        <label htmlFor="password" data-test="password-label">
           Password
         </label>
         <Controller
@@ -82,7 +82,8 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
           render={({ field }) => (
             <IconField iconPosition="right">
               <InputIcon
-                className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'} cursor-pointer`}
+                className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'}`}
+                style={{ cursor: 'pointer' }}
                 onClick={() => setShowPassword(!showPassword)}
                 data-test="password-toggle-icon"
               />
@@ -91,7 +92,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
                 {...field}
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Your password"
-                className={`w-full p-inputtext-sm ${errors.password ? 'p-invalid' : ''}`}
+                className={`p-inputtext-sm ${errors.password ? 'p-invalid' : ''}`}
                 style={styles.input}
                 data-test="password-input"
               />
@@ -105,49 +106,37 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
         )}
       </div>
 
-      <div className="flex align-items-center gap-2 mt-2" data-test="remember-field-container">
+      <div className="flex align-items-center justify-content-between" data-test="remember-field-container">
         <Controller
           name="remember"
           control={control}
           render={({ field }) => (
-            <Checkbox
-              inputId="remember"
-              inputRef={field.ref}
-              checked={field.value}
-              onChange={(e) => field.onChange(e.checked || false)}
-              data-test="remember-checkbox"
-            />
+            <div className="flex align-items-center">
+              <div className="mr-2" data-test="remember-checkbox">
+                <Checkbox
+                  inputId="remember"
+                  {...field}
+                  checked={field.value}
+                  inputRef={field.ref}
+                  className="mr-2"
+                />
+              </div>
+              <label htmlFor="remember" data-test="remember-label">Remember me</label>
+            </div>
           )}
         />
-        <label htmlFor="remember" className="text-sm cursor-pointer" data-test="remember-label">
-          Remember for 5 days
-        </label>
+        <a href="#" className="font-medium no-underline text-primary" style={{ textDecoration: 'none' }} data-test="forgot-password-link">
+          Forgot password?
+        </a>
       </div>
 
-      <div className="flex flex-column gap-3 mt-2">
-        <Button
-          type="submit"
-          label="Sign In"
-          icon="pi pi-sign-in"
-          iconPos="right"
-          className="w-full shadow-4"
-          size="small"
-          loading={isBusy}
-          disabled={isBusy}
-          aria-busy={isBusy}
-          style={styles.button}
-          data-test="submit-button"
-        />
-        <div className="text-center">
-          <a
-            href="#"
-            className="text-sm font-bold text-primary no-underline hover:underline"
-            data-test="forgot-password-link"
-          >
-            Forgot password?
-          </a>
-        </div>
-      </div>
+      <Button
+        type="submit"
+        label={isBusy ? 'Signing in...' : 'Sign In'}
+        disabled={isBusy}
+        className="w-full"
+        data-test="submit-button"
+      />
     </form>
   );
 };

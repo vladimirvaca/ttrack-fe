@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { DashboardView } from '../features/dashboard';
 import DashboardPage from '../pages/DashboardPage/DashboardPage.tsx';
 import LoginPage from '../pages/LoginPage/LoginPage.tsx';
 
@@ -21,8 +22,15 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        index: true,
         element: <DashboardPage />,
+        children: [
+          {
+            index: true,
+            element: <DashboardView />,
+          },
+          // Add additional dashboard subroutes here, for example:
+          // { path: 'users', element: <UsersPage /> },
+        ],
       },
     ],
   },
