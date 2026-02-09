@@ -2,8 +2,15 @@ import axios from 'axios';
 
 import type { AxiosRequestConfig } from 'axios';
 
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_APP_USE_PROXY === 'true') {
+    return '/api';
+  }
+  return import.meta.env.VITE_APP_LOCAL_URL;
+};
+
 const http = axios.create({
-  baseURL: '/api',
+  baseURL: getBaseUrl(),
   withCredentials: true,
 });
 

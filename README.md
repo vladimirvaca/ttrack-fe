@@ -25,10 +25,25 @@ Frontend admin app for Ttrack. It is a React single-page application that handle
 npm install
 ```
 
-2) Optional: set API base URL (defaults to `http://localhost:8080`):
+2) Configure environment variables. Create a `.env.local` file in the root of the project.
+
+Here are the available variables:
+
+- `VITE_APP_USE_PROXY`: Set to `true` to use the Vite proxy for API requests. This is useful for avoiding CORS issues during development. When `true`, requests to `/api` on the frontend will be proxied to the URL specified in `VITE_API_BASE_URL`.
+- `VITE_API_BASE_URL`: The base URL of the backend API. This is where the proxy will forward requests.
+- `VITE_APP_LOCAL_URL`: The URL of the local backend. This is used when `VITE_APP_USE_PROXY` is set to `false`.
+
+**Example `.env.local` for development with proxy:**
 ```bash
-# .env.local
-VITE_API_BASE_URL=http://localhost:8080
+VITE_APP_USE_PROXY=true
+VITE_API_BASE_URL=http://44.199.248.244:8080/
+VITE_APP_LOCAL_URL=http://localhost:8080/
+```
+
+**Example `.env.local` for development without proxy (local backend):**
+```bash
+VITE_APP_USE_PROXY=false
+VITE_APP_LOCAL_URL=http://localhost:8080/
 ```
 
 3) Start the dev server:
