@@ -13,9 +13,6 @@ import 'primeflex/primeflex.css';
 // Global styles
 import './styles/globals.css';
 
-setApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
-
-import { setApiBaseUrl } from './api/http.ts';
 import Routes from './routes/Routes.tsx';
 
 const queryClient = new QueryClient();

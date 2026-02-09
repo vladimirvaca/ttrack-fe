@@ -1,7 +1,7 @@
 module.exports = {
   ttrack: {
     input: {
-      target: 'http://localhost:8080/swagger/ttrack-be-1.0.yml',
+      target: 'http://localhost:5173/api/swagger/ttrack-be-0.2.15.yml',
     },
     output: {
       mode: 'tags-split',

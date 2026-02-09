@@ -3,9 +3,12 @@
  * Do not edit manually.
  * ttrack-be
  * Time tracking API
- * OpenAPI spec version: 1.0
+ * OpenAPI spec version: 0.2.15
  */
 
+/**
+ * DTO for SessionExercise response.
+ */
 export interface SessionExerciseDTO {
   id?: number;
   rounds?: number;
