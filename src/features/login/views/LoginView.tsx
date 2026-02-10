@@ -1,5 +1,3 @@
-import { Card } from 'primereact/card';
-
 import LoginFormFields from '../components/LoginFormFields';
 
 import { styles } from './LoginViewStyles.ts';
@@ -13,31 +11,36 @@ const LoginView: FC<LoginViewProps> = ({ onSubmit, isSubmitting = false }) => {
   };
 
   return (
-    <div style={styles.container}>
-      <Card style={styles.card}>
-        <div style={styles.header}>
-          <div style={styles.iconContainer}>
-            <i className="pi pi-shield" style={styles.icon}></i>
+    <div style={styles.loginContainer}>
+      <div
+        style={styles.loginCard}
+        className="login-card surface-card border-round-2xl border-1 border-200 shadow-8 overflow-hidden"
+      >
+        <div className="text-center p-3 bg-surface-0 border-bottom-1 border-50">
+          <div className="inline-flex align-items-center justify-content-center p-4 border-circle mb-4 bg-blue-50 text-primary-600">
+            <i className="pi pi-shield text-4xl"></i>
           </div>
-          <h4 style={styles.welcomeText}>Welcome Back</h4>
-          <h2 style={styles.title}>Ttrack Admin</h2>
-          <p style={styles.subtitle}>Sign in to manage exercises and users</p>
-        </div>
-
-        <LoginFormFields onSubmit={handleFormSubmit} isSubmitting={isSubmitting} />
-
-        <div style={styles.formFooter}>
-          <p style={styles.authorizedText}>
-            <i className="pi pi-verified" style={styles.authorizedIcon}></i>
-            Authorized personnel only.
+          <p className="m-0 text-xs font-bold text-500 uppercase tracking-widest mb-2">
+            Secure Access
+          </p>
+          <h2 className="m-0 text-3xl font-bold text-900">Ttrack Admin</h2>
+          <p className="m-0 mt-3 text-sm text-500 line-height-3">
+            Sign in with your administrator credentials to manage the platform.
           </p>
         </div>
-      </Card>
+        <LoginFormFields onSubmit={handleFormSubmit} isSubmitting={isSubmitting} />
+        <div className="p-3 surface-50 border-top-1 border-200 text-center">
+          <p className="m-0 text-xs text-500 font-medium flex align-items-center justify-content-center gap-2">
+            <i className="pi pi-info-circle"></i>
+            Authorized access only.
+          </p>
+        </div>
+      </div>
 
-      <footer style={styles.footer}>
-        <span style={styles.footerText}>
+      <footer className="mt-1 text-center">
+        <p className="text-xs text-500 font-medium opacity-70">
           © {new Date().getFullYear()} rwcoder v0.0.1
-        </span>
+        </p>
       </footer>
     </div>
   );

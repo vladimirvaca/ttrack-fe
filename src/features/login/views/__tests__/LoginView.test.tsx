@@ -14,10 +14,12 @@ describe('LoginView', () => {
   it('renders the welcome content and supporting text', () => {
     renderComponent();
 
-    expect(screen.getByRole('heading', { name: 'Welcome Back' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Ttrack Admin' })).toBeInTheDocument();
-    expect(screen.getByText('Sign in to manage exercises and users')).toBeInTheDocument();
-    expect(screen.getByText('Authorized personnel only.')).toBeInTheDocument();
+    expect(screen.getByText('Secure Access')).toBeInTheDocument();
+    expect(
+      screen.getByText('Sign in with your administrator credentials to manage the platform.')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Authorized access only.')).toBeInTheDocument();
   });
 
   it('renders the login form fields', () => {

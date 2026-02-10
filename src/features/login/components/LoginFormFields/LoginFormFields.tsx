@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'primereact/button';
-import { Checkbox } from 'primereact/checkbox';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
@@ -44,12 +43,12 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className="p-fluid flex flex-column gap-3"
+      className="p-4 flex flex-column gap-3"
       data-test="login-form"
     >
-      <div className="flex flex-column gap-2" data-test="email-field-container">
+      <div className="flex flex-column gap-1" data-test="email-field-container">
         <label htmlFor="email" data-test="email-label">
-          Email Address
+          Email
         </label>
         <Controller
           name="email"
@@ -72,7 +71,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
         )}
       </div>
 
-      <div className="flex flex-column gap-2" data-test="password-field-container">
+      <div className="flex flex-column gap-1" data-test="password-field-container">
         <label htmlFor="password" data-test="password-label">
           Password
         </label>
@@ -80,7 +79,7 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
           name="password"
           control={control}
           render={({ field }) => (
-            <IconField iconPosition="right">
+            <IconField iconPosition="right" style={{ width: '100%' }}>
               <InputIcon
                 className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'}`}
                 style={{ cursor: 'pointer' }}
@@ -106,30 +105,6 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
         )}
       </div>
 
-      <div className="flex align-items-center justify-content-between" data-test="remember-field-container">
-        <Controller
-          name="remember"
-          control={control}
-          render={({ field }) => (
-            <div className="flex align-items-center">
-              <div className="mr-2" data-test="remember-checkbox">
-                <Checkbox
-                  inputId="remember"
-                  {...field}
-                  checked={field.value}
-                  inputRef={field.ref}
-                  className="mr-2"
-                />
-              </div>
-              <label htmlFor="remember" data-test="remember-label">Remember me</label>
-            </div>
-          )}
-        />
-        <a href="#" className="font-medium no-underline text-primary" style={{ textDecoration: 'none' }} data-test="forgot-password-link">
-          Forgot password?
-        </a>
-      </div>
-
       <Button
         type="submit"
         label={isBusy ? 'Signing in...' : 'Sign In'}
@@ -137,6 +112,19 @@ const LoginFormFields: FC<LoginFormFieldsProps> = ({ onSubmit, isSubmitting = fa
         className="w-full"
         data-test="submit-button"
       />
+
+      <div
+        className="flex justify-content-center align-items-center text-center"
+        data-test="remember-field-container"
+      >
+        <a
+          href="#"
+          className="font-medium no-underline text-primary text-sm"
+          data-test="forgot-password-link"
+        >
+          Forgot password?
+        </a>
+      </div>
     </form>
   );
 };
