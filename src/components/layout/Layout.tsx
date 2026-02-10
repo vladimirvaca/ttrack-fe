@@ -20,8 +20,8 @@ const Layout: React.FC<LayoutProps> = ({ onLogout }) => {
 
   const navItems = [
     { label: 'Dashboard', icon: 'pi pi-th-large', path: '/dashboard' },
-    { label: 'Users', icon: 'pi pi-users', path: '/users' },
-    { label: 'Exercises', icon: 'pi pi-bolt', path: '/exercises' },
+    { label: 'Users', icon: 'pi pi-users', path: '/dashboard/users' },
+    { label: 'Exercises', icon: 'pi pi-bolt', path: '/dashboard/exercises' },
     { label: 'Sessions', icon: 'pi pi-calendar', path: '/sessions' },
     { label: 'Reports', icon: 'pi pi-chart-bar', path: '/reports' },
   ];
@@ -46,8 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ onLogout }) => {
           <ul className="list-none p-0 m-0">
             {navItems.map((item) => {
               const isActive =
-                location.pathname === item.path ||
-                (item.path !== '/' && location.pathname.startsWith(item.path));
+                location.pathname === item.path;
               return (
                 <li key={item.path} className="mb-2">
                   <Button
