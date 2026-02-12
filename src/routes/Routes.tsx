@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { DashboardView } from '../features/dashboard';
+import { CreateExerciseView, ExercisesView } from '../features/exercises/views';
 import DashboardPage from '../pages/DashboardPage/DashboardPage.tsx';
+import ExercisesPage from '../pages/ExercisesPage/ExercisesPage';
 import LoginPage from '../pages/LoginPage/LoginPage.tsx';
 import UsersPage from '../pages/UsersPage/UsersPage';
-import ExercisesPage from '../pages/ExercisesPage/ExercisesPage';
 
 import ProtectedRoute from './ProtectedRoute.tsx';
 
@@ -37,6 +38,16 @@ const router = createBrowserRouter([
           {
             path: 'exercises',
             element: <ExercisesPage />,
+            children: [
+              {
+                index: true,
+                element: <ExercisesView />,
+              },
+              {
+                path: 'create',
+                element: <CreateExerciseView />,
+              },
+            ],
           },
         ],
       },
